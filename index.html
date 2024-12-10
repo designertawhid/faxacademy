@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SureShotFX Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Fax Academy</h1>
+      <p>v2.0.0</p>
+    </header>
+    <main>
+      <form id="forexForm">
+        <div class="form-group">
+          <label for="currency">Account Currency</label>
+          <select id="currency" name="currency">
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pair">Forex Pair</label>
+          <select id="pair" name="pair">
+            <option value="XAUUSD">XAUUSD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="lotSize">Lot Size</label>
+          <input type="number" id="lotSize" name="lotSize" step="0.01" placeholder="e.g., 0.01">
+        </div>
+        <div class="form-group">
+          <label for="entryPrice">Entry Price</label>
+          <input type="number" id="entryPrice" name="entryPrice" step="0.01" placeholder="e.g., 2650.00">
+        </div>
+        <div class="form-group">
+          <label for="slPrice">Stop Loss (SL) Price</label>
+          <input type="number" id="slPrice" name="slPrice" step="0.01" placeholder="e.g., 2649.00">
+        </div>
+        <div class="form-group">
+          <label for="tpPrice">Take Profit (TP) Price</label>
+          <input type="number" id="tpPrice" name="tpPrice" step="0.01" placeholder="e.g., 2651.00">
+        </div>
+        <div class="form-group">
+          <label>Action</label>
+          <div>
+            <input type="radio" id="buy" name="action" value="Buy" checked>
+            <label for="buy">Buy</label>
+            <input type="radio" id="sell" name="action" value="Sell">
+            <label for="sell">Sell</label>
+          </div>
+        </div>
+        <button type="button" id="calculateBtn">Calculate</button>
+      </form>
+      <div id="result">
+        <h2>Results</h2>
+        <p>Action: <span id="actionResult">-</span></p>
+        <p>Take Profit: <span id="tpResult">-</span></p>
+        <p>Stop Loss: <span id="slResult">-</span></p>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
