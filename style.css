@@ -1,0 +1,140 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #36393f; /* Discord background color */
+  color: #dcddde; /* Discord text color */
+}
+
+/* Container Styles */
+.container {
+  max-width: 400px;
+  margin: 20px auto;
+  background: #2f3136; /* Darker Discord card color */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  color: #dcddde;
+}
+
+/* Header Styles */
+header {
+  background: #5865f2; /* Discord brand color */
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 2px solid #40444b;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+header p {
+  font-size: 0.9rem;
+  margin: 5px 0 0;
+  opacity: 0.8;
+}
+
+/* Form Styles */
+form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #b9bbbe; /* Subtle text */
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #40444b;
+  background-color: #202225;
+  color: #dcddde;
+  font-size: 0.9rem;
+}
+
+input[type="radio"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #5865f2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #4752c4;
+}
+
+/* Results Section */
+#result {
+  padding: 20px;
+  background: #202225;
+  border-radius: 8px;
+  margin-top: 20px;
+  color: #dcddde;
+}
+
+#result h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+#result p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+span {
+  font-weight: bold;
+  color: #43b581; /* Highlighted green for results */
+}
+
+/* Additional Styling for Radio Buttons */
+.form-group div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="radio"] + label {
+  font-size: 0.9rem;
+  color: #b9bbbe;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+  color: #43b581; /* Green for selected radio option */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+}
