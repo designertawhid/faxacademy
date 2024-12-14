@@ -70,6 +70,15 @@ input[type="radio"] {
   margin-right: 8px;
 }
 
+form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #444;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
 button {
   width: 100%;
   padding: 12px;
