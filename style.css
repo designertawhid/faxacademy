@@ -127,14 +127,55 @@ span {
   gap: 10px;
 }
 
-input[type="radio"] + label {
-  font-size: 0.9rem;
-  color: #b9bbbe;
-  cursor: pointer;
+/* Radio Button Group Styles */
+.radio-group {
+  display: flex;
+  gap: 10px;
 }
 
+.radio-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  background: #2f3136;
+  border: 2px solid #40444b;
+  border-radius: 8px;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.radio-option .icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.radio-option .label {
+  font-size: 1rem;
+  color: #b9bbbe;
+}
+
+/* Hide default radio buttons */
+input[type="radio"] {
+  display: none;
+}
+
+/* Change styles when selected */
 input[type="radio"]:checked + label {
-  color: #43b581; /* Green for selected radio option */
+  background: #5865f2;
+  border-color: #4752c4;
+  color: #fff;
+}
+
+input[type="radio"]:checked + label .label {
+  color: #fff;
+}
+
+input[type="radio"]:checked + label .icon {
+  color: #fff;
 }
 
 /* Responsive Design */
