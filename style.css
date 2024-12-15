@@ -234,6 +234,21 @@ input[type="radio"]:checked + label .icon {
     width: 80px; /* Smaller radio button options for mobile */
   }
 
+  footer {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+  }
+
+  footer p {
+    margin: 0;
+    padding: 10px;
+  }
+
+  footer strong {
+    font-weight: bold;
+  }
+  
   /* Ensure that the form inputs are stacked for smaller screens */
   .form-group {
     width: 100%;
