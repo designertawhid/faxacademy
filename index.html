@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fax Academy Pip Calculater</title>
+  <title>SureShotFX Clone</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -59,10 +59,19 @@
         <button type="button" id="calculateBtn">Calculate</button>
       </form>
       <div id="result">
-        <h2>Results</h2>
-        <p>Trade: <span id="actionResult">-</span></p>
-        <p>Take Profit: <span id="tpResult">-</span></p>
-        <p>Stop Loss: <span id="slResult">-</span></p>
+        <h2 class="result-title">Results</h2>
+        <div class="result-row">
+          <span class="label">Trade:</span>
+          <span id="actionResult" class="value">-</span>
+        </div>
+        <div class="result-row">
+          <span class="label">Take Profit:</span>
+          <span id="tpResult" class="value">-</span>
+        </div>
+        <div class="result-row">
+          <span class="label">Stop Loss:</span>
+          <span id="slResult" class="value">-</span>
+        </div>
       </div>
     </main>
   </div>
