@@ -96,30 +96,68 @@ button:hover {
 }
 
 /* Results Section */
+/* General container styling */
 #result {
   padding: 20px;
-  background: #202225;
-  border-radius: 8px;
+  background-color: #1e1e2f; /* Darker background for contrast */
+  border-radius: 12px; /* Smooth rounded corners */
   margin-top: 20px;
-  color: #dcddde;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  font-family: 'Arial', sans-serif; /* Modern and clean font */
+  color: #e0e0e0; /* Neutral text color */
 }
 
-#result h2 {
+/* Title styling */
+.result-title {
+  font-size: 1.8rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #5865f2; /* Accent underline */
+  padding-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+/* Individual rows */
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #333; /* Subtle row separator */
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+/* Label styling */
+.label {
   font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #fff;
+  color: #a1a1b0; /* Muted gray for labels */
 }
 
-#result p {
-  font-size: 0.9rem;
-  margin: 5px 0;
-}
-
-span {
+/* Value styling */
+.value {
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #43b581; /* Highlighted green for results */
+  color: #ffffff; /* Default white */
 }
 
+/* Color variations for results */
+#actionResult {
+  color: #43b581; /* Green for trade action (can adjust dynamically) */
+}
+
+#tpResult {
+  color: #43b581; /* Green for profit (can adjust dynamically) */
+}
+
+#slResult {
+  color: #f04747; /* Red for stop loss (can adjust dynamically) */
+}
 /* Additional Styling for Radio Buttons */
 .form-group div {
   display: flex;
@@ -177,7 +215,6 @@ input[type="radio"]:checked + label .label {
 input[type="radio"]:checked + label .icon {
   color: #fff;
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
