@@ -23,6 +23,9 @@
           <label for="pair">Forex Pair</label>
           <select id="pair" name="pair">
             <option value="XAUUSD">XAUUSD</option>
+            <option value="USDCAD">USDCAD</option>
+            <option value="GBPUSD">GBPUSD</option>
+            <option value="AUDUSD">AUDUSD</option>
           </select>
         </div>
         <div class="form-group">
@@ -40,40 +43,40 @@
         <div class="form-group">
           <label for="tpPrice">Take Profit (TP) Price</label>
           <input type="number" id="tpPrice" name="tpPrice" step="0.01" placeholder="e.g., 2651.00">
-        </div>
-        <div class="form-group">
-  <label>Trade</label>
-  <div class="radio-group">
-    <input type="radio" id="buy" name="action" value="Buy" checked>
-    <label for="buy" class="radio-option">
-      <span class="label">Buy</span>
-    </label>
+                    </div>
+                    <div class="form-group">
+              <label>Trade</label>
+              <div class="radio-group">
+                <input type="radio" id="buy" name="action" value="Buy" checked>
+                <label for="buy" class="radio-option">
+                  <span class="label">Buy</span>
+                </label>
 
-    <input type="radio" id="sell" name="action" value="Sell">
-    <label for="sell" class="radio-option">
-      <span class="label">Sell</span>
-    </label>
-  </div>
-        </div>
-        <button type="button" id="calculateBtn">Calculate</button>
-      </form>
-      <div id="result">
-        <h2 class="result-title">Results</h2>
-        <div class="result-row">
-          <span class="label">Trade:</span>
-          <span id="actionResult" class="value">-</span>
-        </div>
-        <div class="result-row">
-          <span class="label">Take Profit:</span>
-          <span id="tpResult" class="value">-</span>
-        </div>
-        <div class="result-row">
-          <span class="label">Stop Loss:</span>
-          <span id="slResult" class="value">-</span>
-        </div>
-      </div>
-    </main>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+                <input type="radio" id="sell" name="action" value="Sell">
+                <label for="sell" class="radio-option">
+                  <span class="label">Sell</span>
+                </label>
+              </div>
+                    </div>
+                    <button type="button" id="calculateBtn">Calculate</button>
+                  </form>
+                  <div id="result">
+                    <h2 class="result-title">Results</h2>
+                    <div class="result-row">
+                      <span class="label">Trade:</span>
+                      <span id="actionResult" class="value">-</span>
+                    </div>
+                    <div class="result-row">
+                      <span class="label">Take Profit:</span>
+                      <span id="tpResult" class="value">-</span>
+                    </div>
+                    <div class="result-row">
+                      <span class="label">Stop Loss:</span>
+                      <span id="slResult" class="value">-</span>
+                    </div>
+                  </div>
+                </main>
+              </div>
+              <script src="script.js"></script>
+            </body>
+            </html>
