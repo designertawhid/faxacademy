@@ -32,5 +32,10 @@ document.getElementById("calculateBtn").addEventListener("click", function () {
   // Display results
   document.getElementById("actionResult").textContent = action;
   document.getElementById("tpResult").textContent = `${pipsTP.toFixed(1)} Pips, $${profitTP}`;
-  document.getElementById("slResult").textContent = `${pipsSL.toFixed(1)} Pips, -$${lossSL}`;
+  
+  const slResultElement = document.getElementById("slResult");
+  slResultElement.textContent = `${pipsSL.toFixed(1)} Pips, -$${lossSL}`;
+  
+  // Apply red color to Stop Loss result
+  slResultElement.style.color = "red";
 });
