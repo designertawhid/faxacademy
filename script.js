@@ -31,7 +31,7 @@ document.getElementById("calculateBtn").addEventListener("click", function () {
 
   // Display results
   document.getElementById("actionResult").textContent = action;
-  document.getElementById("tpResult").textContent = `${pipsTP.toFixed(1)} Pips, $${profitTP}`;
+  document.getElementById("tpResult").textContent = `${pipsTP.toFixed(1)} Pips, +$${profitTP}`;
   
   const slResultElement = document.getElementById("slResult");
   slResultElement.textContent = `${pipsSL.toFixed(1)} Pips, -$${lossSL}`;
