@@ -1,4 +1,5 @@
 document.getElementById("calculateBtn").addEventListener("click", function () {
+  // Input values
   const lotSize = parseFloat(document.getElementById("lotSize").value); // Lot size input
   const entryPrice = parseFloat(document.getElementById("entryPrice").value); // Entry price
   const slPrice = parseFloat(document.getElementById("slPrice").value); // Stop Loss price
@@ -6,46 +7,47 @@ document.getElementById("calculateBtn").addEventListener("click", function () {
   const action = document.querySelector('input[name="action"]:checked').value; // Buy or Sell
   const pair = document.getElementById("pair").value; // Selected forex pair
 
+  // Validation
   if (!lotSize || !entryPrice || !tpPrice || !slPrice) {
     alert("Please fill all fields!");
     return;
   }
 
-  // Define pip size based on pair
-  let pipSize = 0.0001; // Default pip size for most currency pairs
-  let pipValue = 0.1;   // Default pip value for 0.01 lot size
+  // Define pip size and pip value for XAUUSD
+  let pipSize, pipValue;
 
-  // Special case for XAUUSD (gold), which has a different pip size and value
   if (pair === "XAUUSD") {
-    pipSize = 0.01;  // XAUUSD pip size
-    pipValue = 1;    // XAUUSD pip value (1 pip = 1 USD for 1 lot)
+    pipSize = 0.1;           // 1 pip = 0.1 price movement
+    pipValue = 10 * lotSize; // 1 pip = $1 per lot, so for 0.01 lot, 1 pip = $0.10
+  } else {
+    pipSize = 0.0001;        // Default pip size for Forex pairs
+    pipValue = 10 * lotSize; // 1 pip = $10 per lot for Forex pairs
   }
 
-  // Calculate pips for TP and SL based on the action
+  // Calculate Pips for TP and SL based on Buy/Sell
   let pipsTP, pipsSL;
 
   if (action === "Buy") {
-    pipsTP = (tpPrice - entryPrice) / pipSize; // TP pips for Buy
-    pipsSL = (entryPrice - slPrice) / pipSize; // SL pips for Buy
+    pipsTP = (tpPrice - entryPrice) / pipSize; // Pips for Take Profit in Buy
+    pipsSL = (entryPrice - slPrice) / pipSize; // Pips for Stop Loss in Buy
   } else if (action === "Sell") {
-    pipsTP = (entryPrice - tpPrice) / pipSize; // TP pips for Sell
-    pipsSL = (slPrice - entryPrice) / pipSize; // SL pips for Sell
+    pipsTP = (entryPrice - tpPrice) / pipSize; // Pips for Take Profit in Sell
+    pipsSL = (slPrice - entryPrice) / pipSize; // Pips for Stop Loss in Sell
   }
 
   // Ensure no negative pip values
   pipsTP = Math.max(0, pipsTP);
   pipsSL = Math.max(0, pipsSL);
 
-  // Calculate profit or loss in USD
-  const profitTP = (pipsTP * pipValue).toFixed(2); // Profit for TP
-  const lossSL = (pipsSL * pipValue).toFixed(2); // Loss for SL
+  // Calculate USD Profit or Loss
+  const profitTP = (pipsTP * pipValue).toFixed(2); // USD for Take Profit
+  const lossSL = (pipsSL * pipValue).toFixed(2);   // USD for Stop Loss
 
-  // Display results
-  document.getElementById("actionResult").textContent = action;
-  document.getElementById("tpResult").textContent = `${pipsTP.toFixed(1)} Pips, +$${profitTP}`;
+  // Display Results
+  document.getElementById("actionResult").textContent = action; // Buy/Sell result
+  document.getElementById("tpResult").textContent = `${pipsTP.toFixed(1)} Pips, +$${profitTP} USD`;
+
   const slResultElement = document.getElementById("slResult");
-  slResultElement.textContent = `${pipsSL.toFixed(1)} Pips, -$${lossSL}`;
-
-  // Apply red color to Stop Loss result
-  slResultElement.style.color = "red";
+  slResultElement.textContent = `${pipsSL.toFixed(1)} Pips, -$${lossSL} USD`;
+  slResultElement.style.color = "red"; // Apply red color to Stop Loss
 });
