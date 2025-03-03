@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { checkAdminAuth, logoutAdmin } from './auth';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -15,13 +16,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     setMounted(true);
     const checkAuth = () => {
       const isAuthenticated = checkAdminAuth();
-      if (!isAuthenticated && window.location.pathname !== '/admin/login') {
+      if (!isAuthenticated && pathname !== '/admin/login') {
         router.push('/admin/login');
       }
       setIsAdmin(isAuthenticated);
     };
     checkAuth();
-  }, [router]);
+  }, [router, pathname]);
 
   const handleLogout = () => {
     logoutAdmin();
@@ -30,15 +31,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   // Don't render anything until after hydration
   if (!mounted) {
-    return null;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
   }
 
-  if (!isAdmin && window.location.pathname !== '/admin/login') {
-    return null;
-  }
-
-  if (window.location.pathname === '/admin/login') {
+  if (!isAdmin && pathname === '/admin/login') {
     return <>{children}</>;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-xl font-bold mb-4">Authentication Required</h1>
+          <Button onClick={() => router.push('/admin/login')}>Go to Login</Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -47,8 +59,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <Button variant="outline" onClick={handleLogout}>Logout</Button>
       </div>
-      <Tabs defaultValue="courses" className="w-full">
+      <Tabs defaultValue="dashboard" className="w-full">
         <TabsList className="mb-8">
+          <TabsTrigger value="dashboard" onClick={() => router.push('/admin/dashboard')}>
+            Dashboard
+          </TabsTrigger>
           <TabsTrigger value="courses" onClick={() => router.push('/admin/courses')}>
             Courses
           </TabsTrigger>

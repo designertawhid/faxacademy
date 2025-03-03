@@ -1,7 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/mode-toggle';
 import {
@@ -12,7 +13,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { BookOpen, Menu, TrendingUp } from 'lucide-react';
+import { BookOpen, Menu, TrendingUp, MessageSquare, LogOut, User } from 'lucide-react';
 
 const navigation = [
   {
@@ -27,14 +28,49 @@ const navigation = [
     icon: TrendingUp,
     description: 'Premium trading signals and alerts',
   },
+  {
+    name: 'Contact',
+    href: '/contact',
+    icon: MessageSquare,
+    description: 'Get in touch with our support team',
+  },
 ];
 
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<{ name?: string, email: string } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Check if user is logged in
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        setIsAuthenticated(false);
+      }
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [pathname]); // Re-check when pathname changes to update UI after login/logout
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    setUser(null);
+    router.push('/');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-14 items-center justify-between">
+      <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="flex items-end">
@@ -44,7 +80,7 @@ export default function Navigation() {
               <span className="ml-2 text-sm font-medium text-[#00B8D4]">ACADEMY</span>
             </span>
           </Link>
-          <div className="hidden md:flex">
+          <nav className="hidden md:flex">
             {navigation.map((item) => (
               <Button
                 key={item.name}
@@ -58,18 +94,35 @@ export default function Navigation() {
                 <Link href={item.href}>{item.name}</Link>
               </Button>
             ))}
-          </div>
+          </nav>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Get Started</Link>
-            </Button>
-          </div>
+          {mounted && (
+            <div className="hidden md:flex items-center gap-2">
+              {isAuthenticated ? (
+                <>
+                  <Button variant="ghost" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    <span>{user?.name || user?.email}</span>
+                  </Button>
+                  <Button variant="outline" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild>
+                    <Link href="/login">Login</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/register">Get Started</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
           <ModeToggle />
           <Sheet>
             <SheetTrigger asChild>
@@ -101,18 +154,33 @@ export default function Navigation() {
                 ))}
                 <hr className="my-4" />
                 <div className="space-y-4 px-4">
-                  <Button className="w-full" variant="outline" asChild>
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button className="w-full" asChild>
-                    <Link href="/register">Get Started</Link>
-                  </Button>
+                  {mounted && isAuthenticated ? (
+                    <>
+                      <div className="flex items-center gap-2 px-4 py-2">
+                        <User className="h-5 w-5" />
+                        <span className="font-medium">{user?.name || user?.email}</span>
+                      </div>
+                      <Button className="w-full" onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button className="w-full" variant="outline" asChild>
+                        <Link href="/login">Login</Link>
+                      </Button>
+                      <Button className="w-full" asChild>
+                        <Link href="/register">Get Started</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
           </Sheet>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }

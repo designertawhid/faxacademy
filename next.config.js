@@ -8,8 +8,7 @@ const nextConfig = {
     unoptimized: true,
     domains: ['images.unsplash.com']
   },
-  // Add this to handle admin routes during static export
-  trailingSlash: true,
+  distDir: '.next',
 };
 
 module.exports = nextConfig;

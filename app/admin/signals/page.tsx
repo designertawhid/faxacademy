@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Edit, Trash, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash, Image as ImageIcon, Link as LinkIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default function AdminSignalsPage() {
@@ -35,6 +36,19 @@ export default function AdminSignalsPage() {
     image: '',
   });
 
+  const [tradingHistoryUrl, setTradingHistoryUrl] = useState('');
+  const [isEditingHistory, setIsEditingHistory] = useState(false);
+
+  useEffect(() => {
+    // Get the trading history URL from localStorage if available
+    const storedUrl = localStorage.getItem('tradingHistoryUrl');
+    if (storedUrl) {
+      setTradingHistoryUrl(storedUrl);
+    } else {
+      setTradingHistoryUrl('https://faxacademy.notion.site/ebd/809ae02c41df44e387e9d55ad91b2bd2?v=73d1e8fc2fd94010b5f540bb472a8845');
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isEditing) {
@@ -55,6 +69,12 @@ export default function AdminSignalsPage() {
       status: 'active',
       image: '',
     });
+  };
+
+  const handleHistorySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem('tradingHistoryUrl', tradingHistoryUrl);
+    setIsEditingHistory(false);
   };
 
   return (
@@ -137,6 +157,65 @@ export default function AdminSignalsPage() {
               {isEditing ? 'Update' : 'Add'} Signal
             </Button>
           </form>
+        </CardContent>
+      </Card>
+
+      {/* Trading History URL Editor */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>Trading History Embed</span>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setIsEditingHistory(!isEditingHistory)}
+            >
+              <Edit className="h-4 w-4 mr-2" />
+              Edit URL
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isEditingHistory ? (
+            <form onSubmit={handleHistorySubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="tradingHistoryUrl">Trading History URL</Label>
+                <Input
+                  id="tradingHistoryUrl"
+                  type="url"
+                  value={tradingHistoryUrl}
+                  onChange={(e) => setTradingHistoryUrl(e.target.value)}
+                  placeholder="https://example.com/trading-history"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button type="submit">Save URL</Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsEditingHistory(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <LinkIcon className="h-4 w-4" />
+                <span className="truncate">{tradingHistoryUrl}</span>
+              </div>
+              <div className="w-full aspect-[3/2] rounded-lg overflow-hidden shadow-xl bg-background">
+                <iframe
+                  src={tradingHistoryUrl}
+                  className="w-full h-full border-0"
+                  title="FAX Academy Trading History"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 

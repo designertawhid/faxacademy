@@ -15,6 +15,12 @@ export default function AdminLoginPage() {
     email: '',
     password: '',
   });
+  const [mounted, setMounted] = useState(false);
+
+  // Add useEffect to handle hydration
+  useState(() => {
+    setMounted(true);
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +31,24 @@ export default function AdminLoginPage() {
       toast.error('Invalid credentials');
     }
   };
+
+  // Don't render until client-side hydration is complete
+  if (!mounted) {
+    return (
+      <div className="container flex h-screen w-full items-center justify-center">
+        <Card className="w-[400px]">
+          <CardHeader>
+            <CardTitle>Admin Login</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center p-8">
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container flex h-screen w-full items-center justify-center">

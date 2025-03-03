@@ -1,53 +1,42 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Clock, DollarSign, Star } from 'lucide-react';
+import { BookOpen, Clock, DollarSign, Star, Lock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-const courses = [
-  {
-    id: 1,
-    title: 'Forex Trading Fundamentals',
-    description: 'Learn the basics of Forex trading, including currency pairs, market analysis, and trading platforms.',
-    duration: '6 weeks',
-    level: 'Beginner',
-    price: 'Free',
-    rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 2,
-    title: 'Technical Analysis Mastery',
-    description: 'Master technical analysis tools and indicators for better trading decisions.',
-    duration: '8 weeks',
-    level: 'Intermediate',
-    price: '$199',
-    rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 3,
-    title: 'Advanced Trading Strategies',
-    description: 'Learn advanced trading strategies, risk management, and portfolio optimization.',
-    duration: '10 weeks',
-    level: 'Advanced',
-    price: '$299',
-    rating: 4.7,
-    image: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&auto=format&fit=crop&q=60',
-  },
-  {
-    id: 4,
-    title: 'Psychology of Trading',
-    description: 'Understand trading psychology and develop a winning mindset.',
-    duration: '4 weeks',
-    level: 'All Levels',
-    price: '$149',
-    rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1579226905180-636b76d96082?w=800&auto=format&fit=crop&q=60',
-  },
-];
+import { courses as allCourses } from './[id]/data';
 
 export default function CoursesPage() {
+  const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Check if user is logged in
+    const userData = localStorage.getItem('user');
+    setIsLoggedIn(!!userData);
+    
+    // Get enrolled courses
+    const storedCourses = localStorage.getItem('enrolledCourses');
+    if (storedCourses) {
+      setEnrolledCourses(JSON.parse(storedCourses));
+    }
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="container px-4 py-8 md:py-12">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container px-4 py-8 md:py-12">
       <div className="mb-8 md:mb-12">
@@ -58,7 +47,7 @@ export default function CoursesPage() {
       </div>
 
       <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {courses.map((course) => (
+        {allCourses.map((course) => (
           <Card key={course.id} className="flex flex-col h-full">
             <div className="relative w-full aspect-video">
               <Image
@@ -67,6 +56,14 @@ export default function CoursesPage() {
                 fill
                 className="object-cover rounded-t-lg"
               />
+              {course.isPaid && !isLoggedIn && (
+                <div className="absolute top-2 right-2">
+                  <div className="bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 px-2 py-1 rounded-md text-xs font-medium flex items-center">
+                    <Lock className="h-3 w-3 mr-1" />
+                    Premium
+                  </div>
+                </div>
+              )}
             </div>
             <CardHeader>
               <CardTitle className="text-xl md:text-2xl">{course.title}</CardTitle>
@@ -91,9 +88,20 @@ export default function CoursesPage() {
                   <span className="text-sm">{course.rating} / 5.0</span>
                 </div>
               </div>
-              <Button className="w-full mt-4" asChild>
-                <Link href={`/courses/${course.id}`}>Learn More</Link>
-              </Button>
+              {isLoggedIn && enrolledCourses.includes(course.id) ? (
+                <div className="flex flex-col gap-2">
+                  <div className="text-center p-2 bg-green-100 dark:bg-green-900 rounded-md">
+                    <p className="text-green-700 dark:text-green-300 text-sm">Enrolled</p>
+                  </div>
+                  <Button className="w-full" asChild>
+                    <Link href={`/courses/${course.id}`}>Continue Learning</Link>
+                  </Button>
+                </div>
+              ) : (
+                <Button className="w-full mt-4" asChild>
+                  <Link href={`/courses/${course.id}`}>Learn More</Link>
+                </Button>
+              )}
             </CardContent>
           </Card>
         ))}
